@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Number Info | REHAN</title>
+<title>Number Info | Rehan</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap');
@@ -36,13 +36,12 @@ body{
     text-align:center;
 }
 
-/* ===== LOGO ===== */
+/* LOGO */
 .logo{
     display:flex;
     justify-content:center;
     margin-bottom:18px;
 }
-
 .logo img{
     width:90px;
     height:90px;
@@ -54,17 +53,14 @@ body{
     box-shadow:0 0 20px rgba(0,255,225,0.35);
 }
 
-/* ===== TITLE ===== */
+/* TITLE */
 h1{
     font-family:'Orbitron',sans-serif;
     font-size:36px;
     letter-spacing:3px;
     color:#ff0033;
 }
-
-h1 span{
-    color:#00ffe1;
-}
+h1 span{ color:#00ffe1; }
 
 .subtitle{
     color:#9e9e9e;
@@ -73,13 +69,12 @@ h1 span{
     letter-spacing:1px;
 }
 
-/* ===== SEARCH ===== */
+/* SEARCH */
 .search-box{
     display:flex;
     gap:10px;
     margin:35px 0;
 }
-
 .search-box input{
     flex:1;
     padding:14px;
@@ -89,7 +84,6 @@ h1 span{
     font-size:16px;
     outline:none;
 }
-
 .search-box button{
     padding:14px 22px;
     background:#ff0033;
@@ -97,15 +91,13 @@ h1 span{
     color:#fff;
     font-weight:600;
     cursor:pointer;
-    transition:.3s;
 }
-
 .search-box button:hover{
     background:#00ffe1;
     color:#000;
 }
 
-/* ===== RESULT CARD ===== */
+/* RESULT */
 .result{
     display:none;
     background:linear-gradient(180deg,#0c0c0c,#050505);
@@ -115,39 +107,41 @@ h1 span{
     box-shadow:0 0 35px rgba(0,255,225,0.18);
 }
 
-/* ===== DEV ===== */
+/* DEV INFO */
 .dev{
     text-align:center;
     margin-bottom:18px;
 }
-
+.dev small{
+    display:block;
+    color:#9e9e9e;
+    letter-spacing:2px;
+    font-size:12px;
+}
 .dev h2{
     font-family:'Orbitron',sans-serif;
     font-size:20px;
     color:#00ffe1;
     letter-spacing:2px;
 }
-
 .dev p{
     font-size:13px;
     color:#ff0033;
     letter-spacing:1px;
 }
 
-/* ===== DATA ===== */
+/* DATA */
 .data p{
     margin:10px 0;
     font-size:16px;
-    letter-spacing:0.5px;
     color:#e0e0e0;
 }
-
 .data span{
     color:#00ffe1;
     font-weight:600;
 }
 
-/* ===== COPY ===== */
+/* COPY */
 .copy{
     margin-top:18px;
     width:100%;
@@ -156,10 +150,8 @@ h1 span{
     border:none;
     font-size:15px;
     font-weight:700;
-    letter-spacing:1px;
     cursor:pointer;
 }
-
 .copy:hover{
     background:#ff0033;
     color:#fff;
@@ -173,7 +165,6 @@ h1 span{
 
 <div class="container">
 
-    <!-- LOGO -->
     <div class="logo">
         <img src="logo.png" alt="Logo">
     </div>
@@ -188,6 +179,7 @@ h1 span{
 
     <div class="result" id="result">
         <div class="dev">
+            <small>DEVELOPER</small>
             <h2>REHAN MALIK 😎</h2>
             <p>@rehan_z4x</p>
         </div>
@@ -202,6 +194,7 @@ h1 span{
 
         <button class="copy" onclick="copyAll()">📋 COPY FULL RESULT</button>
     </div>
+
 </div>
 
 <script>
@@ -219,21 +212,30 @@ async function search(){
         let r=await fetch(`https://rajput-api.vercel.app/search?num=${n}`);
         let d=await r.json();
 
-        name.innerText=d.name || "Unknown User";
-        location.innerText=d.location || "Unknown";
-        operator.innerText=d.operator || "Unknown";
-        status.innerText=d.status || "Safe 🟢";
+        if(d.status==="success" && d.results.length>0){
+            let u=d.results[0];
+            name.innerText=u.name || "Unknown";
+            location.innerText=u.address || "Unknown";
+            operator.innerText=u.circle || "Unknown";
+            status.innerText="Found ✅";
+        }else{
+            name.innerText="Not Found";
+            location.innerText="-";
+            operator.innerText="-";
+            status.innerText="No Data ❌";
+        }
     }catch{
         name.innerText="Error ❌";
         location.innerText="-";
         operator.innerText="-";
-        status.innerText="-";
+        status.innerText="API Error";
     }
 }
 
 function copyAll(){
 let t=
-`REHAN MALIK 😎
+`DEVELOPER
+REHAN MALIK 😎
 @rehan_z4x
 
 📱 NUMBER: ${num.innerText}
