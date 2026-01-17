@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Number Info | REHAN</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:url('background.png') no-repeat center center/cover;
+    min-height:100vh;
+    color:#fff;
+    font-family:'Rajdhani',sans-serif;
+}
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.9);
+    z-index:0;
+}
+
+.container{
+    position:relative;
+    z-index:1;
+    max-width:520px;
+    margin:auto;
+    padding:70px 20px;
+    text-align:center;
+}
+
+/* ===== LOGO ===== */
+.logo{
+    display:flex;
+    justify-content:center;
+    margin-bottom:18px;
+}
+
+.logo img{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+    filter:blur(0.6px);
+    opacity:0.9;
+    border:2px solid rgba(0,255,225,0.6);
+    box-shadow:0 0 20px rgba(0,255,225,0.35);
+}
+
+/* ===== TITLE ===== */
+h1{
+    font-family:'Orbitron',sans-serif;
+    font-size:36px;
+    letter-spacing:3px;
+    color:#ff0033;
+}
+
+h1 span{
+    color:#00ffe1;
+}
+
+.subtitle{
+    color:#9e9e9e;
+    margin-top:6px;
+    font-size:14px;
+    letter-spacing:1px;
+}
+
+/* ===== SEARCH ===== */
+.search-box{
+    display:flex;
+    gap:10px;
+    margin:35px 0;
+}
+
+.search-box input{
+    flex:1;
+    padding:14px;
+    background:#0f0f0f;
+    border:1px solid #2a2a2a;
+    color:#fff;
+    font-size:16px;
+    outline:none;
+}
+
+.search-box button{
+    padding:14px 22px;
+    background:#ff0033;
+    border:none;
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.search-box button:hover{
+    background:#00ffe1;
+    color:#000;
+}
+
+/* ===== RESULT CARD ===== */
+.result{
+    display:none;
+    background:linear-gradient(180deg,#0c0c0c,#050505);
+    border:1px solid #1f1f1f;
+    padding:22px;
+    text-align:left;
+    box-shadow:0 0 35px rgba(0,255,225,0.18);
+}
+
+/* ===== DEV ===== */
+.dev{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.dev h2{
+    font-family:'Orbitron',sans-serif;
+    font-size:20px;
+    color:#00ffe1;
+    letter-spacing:2px;
+}
+
+.dev p{
+    font-size:13px;
+    color:#ff0033;
+    letter-spacing:1px;
+}
+
+/* ===== DATA ===== */
+.data p{
+    margin:10px 0;
+    font-size:16px;
+    letter-spacing:0.5px;
+    color:#e0e0e0;
+}
+
+.data span{
+    color:#00ffe1;
+    font-weight:600;
+}
+
+/* ===== COPY ===== */
+.copy{
+    margin-top:18px;
+    width:100%;
+    padding:12px;
+    background:#00ffe1;
+    border:none;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:1px;
+    cursor:pointer;
+}
+
+.copy:hover{
+    background:#ff0033;
+    color:#fff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="container">
+
+    <!-- LOGO -->
+    <div class="logo">
+        <img src="logo.png" alt="Logo">
+    </div>
+
+    <h1>NUMBER <span>INFO</span></h1>
+    <div class="subtitle">PROFESSIONAL PHONE LOOKUP 🔍</div>
+
+    <div class="search-box">
+        <input type="text" id="number" placeholder="Enter phone number">
+        <button onclick="search()">SEARCH</button>
+    </div>
+
+    <div class="result" id="result">
+        <div class="dev">
+            <h2>REHAN MALIK 😎</h2>
+            <p>@rehan_z4x</p>
+        </div>
+
+        <div class="data">
+            <p>📱 NUMBER → <span id="num">---</span></p>
+            <p>👤 NAME → <span id="name">---</span></p>
+            <p>📍 LOCATION → <span id="location">---</span></p>
+            <p>📶 OPERATOR → <span id="operator">---</span></p>
+            <p>🛡️ STATUS → <span id="status">---</span></p>
+        </div>
+
+        <button class="copy" onclick="copyAll()">📋 COPY FULL RESULT</button>
+    </div>
+</div>
+
+<script>
+async function search(){
+    let n=document.getElementById("number").value.trim();
+    if(n===""){
+        alert("Enter number first");
+        return;
+    }
+
+    result.style.display="block";
+    num.innerText=n;
+
+    try{
+        let r=await fetch(`https://rajput-api.vercel.app/search?num=${n}`);
+        let d=await r.json();
+
+        name.innerText=d.name || "Unknown User";
+        location.innerText=d.location || "Unknown";
+        operator.innerText=d.operator || "Unknown";
+        status.innerText=d.status || "Safe 🟢";
+    }catch{
+        name.innerText="Error ❌";
+        location.innerText="-";
+        operator.innerText="-";
+        status.innerText="-";
+    }
+}
+
+function copyAll(){
+let t=
+`REHAN MALIK 😎
+@rehan_z4x
+
+📱 NUMBER: ${num.innerText}
+👤 NAME: ${name.innerText}
+📍 LOCATION: ${location.innerText}
+📶 OPERATOR: ${operator.innerText}
+🛡️ STATUS: ${status.innerText}`;
+
+navigator.clipboard.writeText(t);
+alert("Copied Successfully ✅");
+}
+</script>
+
+</body>
+</html>
