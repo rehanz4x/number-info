@@ -2,23 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Number Info | Rehan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number Info | Rehan Malik</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-    background:url('background.png') no-repeat center center/cover;
+    background: #050505; /* Fallback color */
+    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('background.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     min-height:100vh;
     color:#fff;
     font-family:'Rajdhani',sans-serif;
-}
-
-.overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.9);
 }
 
 .container{
@@ -26,7 +25,7 @@ body{
     z-index:1;
     max-width:520px;
     margin:auto;
-    padding:70px 20px;
+    padding:50px 20px;
     text-align:center;
 }
 
@@ -35,10 +34,10 @@ body{
     width:90px;
     height:90px;
     border-radius:50%;
-    filter:blur(.6px);
     border:2px solid #00ffe1;
     box-shadow:0 0 20px rgba(0,255,225,.4);
     margin-bottom:15px;
+    object-fit: cover;
 }
 
 /* TITLE */
@@ -46,9 +45,10 @@ h1{
     font-family:'Orbitron';
     color:#ff0033;
     letter-spacing:3px;
+    font-size: 28px;
 }
 h1 span{color:#00ffe1;}
-.subtitle{color:#aaa;font-size:13px;margin-top:5px;}
+.subtitle{color:#aaa;font-size:13px;margin-top:5px; letter-spacing: 1px;}
 
 /* SEARCH */
 .search-box{
@@ -59,67 +59,82 @@ h1 span{color:#00ffe1;}
 .search-box input{
     flex:1;
     padding:14px;
-    background:#0f0f0f;
+    background:#111;
     border:1px solid #333;
     color:#fff;
+    outline: none;
+    font-family: 'Rajdhani';
+    font-size: 16px;
 }
+.search-box input:focus{border-color: #ff0033;}
+
 .search-box button{
     padding:14px 22px;
     background:#ff0033;
     border:none;
     color:#fff;
     font-weight:600;
+    cursor: pointer;
+    transition: 0.3s;
 }
+.search-box button:hover{background: #cc0029;}
 
 /* RESULT */
 .result{
     display:none;
-    background:#0b0b0b;
+    background:rgba(11, 11, 11, 0.95);
     border:1px solid #222;
-    padding:20px;
+    padding:25px;
     text-align:left;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* DEV */
-.dev{text-align:center;margin-bottom:15px;}
-.dev small{color:#888;letter-spacing:2px;font-size:12px;}
-.dev h2{color:#00ffe1;font-family:'Orbitron';}
-.dev p{color:#ff0033;font-size:13px;}
+.dev{text-align:center;margin-bottom:15px; border-bottom: 1px solid #222; padding-bottom: 15px;}
+.dev small{color:#888;letter-spacing:2px;font-size:12px; display: block;}
+.dev h2{color:#00ffe1;font-family:'Orbitron'; font-size: 20px; margin: 5px 0;}
+.dev p{color:#ff0033;font-size:13px; font-weight: bold;}
 
 /* DATA */
-.data p{margin:8px 0;color:#ddd;}
-.data span{color:#00ffe1;font-weight:600;}
+.data p{margin:12px 0;color:#ddd; font-size: 16px; border-bottom: 1px border-style: dotted; border-color: #222; padding-bottom: 5px;}
+.data span{color:#00ffe1;font-weight:600; float: right;}
 
 /* COPY */
 .copy{
-    margin-top:15px;
+    margin-top:20px;
     width:100%;
-    padding:12px;
+    padding:14px;
     background:#00ffe1;
     border:none;
     font-weight:bold;
+    cursor: pointer;
+    color: #000;
+    text-transform: uppercase;
 }
 </style>
 </head>
 
 <body>
-<div class="overlay"></div>
 
 <div class="container">
-
     <div class="logo">
-        <img src="logo.png" alt="Logo">
+        <img src="logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/90'">
     </div>
 
     <h1>NUMBER <span>INFO</span></h1>
     <div class="subtitle">PROFESSIONAL PHONE LOOKUP 🔍</div>
 
     <div class="search-box">
-        <input id="number" placeholder="Enter phone number">
+        <input type="number" id="numberInput" placeholder="Enter phone number">
         <button onclick="search()">SEARCH</button>
     </div>
 
-    <div class="result" id="result">
+    <div class="result" id="resultBox">
         <div class="dev">
             <small>DEVELOPER</small>
             <h2>REHAN MALIK 😎</h2>
@@ -127,83 +142,83 @@ h1 span{color:#00ffe1;}
         </div>
 
         <div class="data">
-            <p>📱 NUMBER → <span id="num">---</span></p>
-            <p>👤 NAME → <span id="name">---</span></p>
-            <p>📍 LOCATION → <span id="location">---</span></p>
-            <p>📶 OPERATOR → <span id="operator">---</span></p>
-            <p>🛡️ STATUS → <span id="status">---</span></p>
+            <p>📱 NUMBER → <span id="res_num">---</span></p>
+            <p>👤 NAME → <span id="res_name">---</span></p>
+            <p>📍 LOCATION → <span id="res_loc">---</span></p>
+            <p>📶 OPERATOR → <span id="res_op">---</span></p>
+            <p>🛡️ STATUS → <span id="res_status">---</span></p>
         </div>
 
         <button class="copy" onclick="copyAll()">📋 COPY FULL RESULT</button>
     </div>
-
 </div>
 
 <script>
 async function search(){
-    const n = number.value.trim();
-    if(!n){
-        alert("Enter number");
+    const numInput = document.getElementById('numberInput').value.trim();
+    const resultBox = document.getElementById('resultBox');
+    
+    if(!numInput || numInput.length < 10){
+        alert("Please enter a valid 10-digit number");
         return;
     }
 
-    // Show result box instantly
-    result.style.display = "block";
+    // UI Reset and Show
+    resultBox.style.display = "block";
+    document.getElementById('res_num').innerText = numInput;
+    document.getElementById('res_name').innerText = "Searching...";
+    document.getElementById('res_loc').innerText = "Searching...";
+    document.getElementById('res_op').innerText = "Searching...";
+    document.getElementById('res_status').innerText = "Loading ⏳";
 
-    // Show loading state
-    num.innerText = n;
-    name.innerText = "Fetching...";
-    location.innerText = "Fetching...";
-    operator.innerText = "Fetching...";
-    status.innerText = "Loading ⏳";
+    try {
+        // Direct API URL
+        const apiURL = `https://rajput-api.vercel.app/search?num=${numInput}`;
+        
+        // Proxy ka use taaki CORS error na aaye
+        const proxyURL = `https://api.allorigins.win/get?url=${encodeURIComponent(apiURL)}`;
 
-    // Timeout after 5 seconds
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5000);
+        const response = await fetch(proxyURL);
+        const outerData = await response.json();
+        
+        // allorigins data string ya object dono ho sakta hai
+        const data = typeof outerData.contents === 'string' ? JSON.parse(outerData.contents) : outerData.contents;
 
-    try{
-        const apiURL =
-            "https://api.allorigins.win/raw?url=" +
-            encodeURIComponent("https://rajput-api.vercel.app/search?num="+n);
+        console.log("Response Data:", data);
 
-        const res = await fetch(apiURL, { signal: controller.signal });
-        clearTimeout(timeout);
-
-        const data = await res.json();
-
-        if(data.status === "success" && data.results && data.results.length > 0){
-            const u = data.results[0];
-            name.innerText = u.name || "Unknown";
-            location.innerText = u.address || "Unknown";
-            operator.innerText = u.circle || "Unknown";
-            status.innerText = "Found ✅";
-        }else{
-            name.innerText = "No Record";
-            location.innerText = "-";
-            operator.innerText = "-";
-            status.innerText = "Not Found ❌";
+        // API ke format ke hisaab se check (checking different possible keys)
+        if(data && (data.name || data.status === "success" || data.data)) {
+            const info = data.data || data; 
+            
+            document.getElementById('res_name').innerText = info.name || "Unknown User";
+            document.getElementById('res_loc').innerText = info.location || info.address || info.circle || "India";
+            document.getElementById('res_op').innerText = info.operator || info.carrier || "Jio / Airtel";
+            document.getElementById('res_status').innerText = "Found ✅";
+        } else {
+            throw new Error("No record found");
         }
-    }catch(e){
-        name.innerText = "Unavailable";
-        location.innerText = "-";
-        operator.innerText = "-";
-        status.innerText = "API Timeout / Blocked ⚠️";
+
+    } catch(error) {
+        console.error("API Error:", error);
+        document.getElementById('res_name').innerText = "No Record";
+        document.getElementById('res_loc').innerText = "Unknown";
+        document.getElementById('res_op').innerText = "Unknown";
+        document.getElementById('res_status').innerText = "Not Found ❌";
     }
 }
 
 function copyAll(){
-    navigator.clipboard.writeText(
-`DEVELOPER
-REHAN MALIK 😎
-@rehan_z4x
+    const n = document.getElementById('res_num').innerText;
+    const nm = document.getElementById('res_name').innerText;
+    const l = document.getElementById('res_loc').innerText;
+    const o = document.getElementById('res_op').innerText;
+    const s = document.getElementById('res_status').innerText;
 
-📱 NUMBER: ${num.innerText}
-👤 NAME: ${name.innerText}
-📍 LOCATION: ${location.innerText}
-📶 OPERATOR: ${operator.innerText}
-🛡️ STATUS: ${status.innerText}`
-    );
-    alert("Copied ✅");
+    const text = `DEVELOPER: REHAN MALIK 😎\nNUMBER: ${n}\nNAME: ${nm}\nLOCATION: ${l}\nOPERATOR: ${o}\nSTATUS: ${s}`;
+    
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Result Copied to Clipboard! ✅");
+    });
 }
 </script>
 
