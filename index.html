@@ -3,49 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Number Info</title>
+<title>Number Info | Rehan Malik</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
 body{
+    margin:0;
+    min-height:100vh;
+    background:
+      linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.85)),
+      url('background.png') center/cover no-repeat fixed;
+    color:#00ff66;
+    font-family: monospace;
+}
+
+/* MAIN BOX */
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+/* HEADER */
+.header{
+    text-align:center;
+    margin-bottom:20px;
+    font-family:'Orbitron';
+    color:#00ffe1;
+}
+.header span{
+    color:#fff;
+    font-size:14px;
+}
+
+/* SEARCH */
+.search{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-bottom:15px;
+}
+.search input{
+    width:240px;
+    padding:10px;
+    font-size:16px;
     background:#000;
     color:#0f0;
-    font-family: monospace;
-    padding:15px;
+    border:1px solid #0f0;
 }
-input,button{
-    padding:10px;
-    font-family: monospace;
+.search button{
+    padding:10px 18px;
     font-size:16px;
-}
-button{
+    background:#00ffe1;
+    border:none;
     cursor:pointer;
+    font-weight:bold;
 }
+
+/* RESULT BOX */
 pre{
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    background:#050505;
+    background:rgba(0,0,0,.85);
+    border:1px solid #0f0;
     padding:15px;
-    margin-top:15px;
-    border:1px solid #222;
+    white-space:pre-wrap;
+    word-break:break-word;
+    font-size:14px;
 }
-.credit{
-    color:#0ff;
-    margin-bottom:10px;
+
+/* COPY BUTTON */
+.copy-btn{
+    margin-top:10px;
+    width:100%;
+    padding:12px;
+    background:#00ffe1;
+    color:#000;
+    font-weight:bold;
+    border:none;
+    cursor:pointer;
+    font-size:15px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="credit">
-REHAN MALIK 😎  
-@rehan_z4x  
+<div class="container">
+
+    <div class="header">
+        REHAN MALIK 😎 <span>@rehan_z4x</span>
+    </div>
+
+    <div class="search">
+        <input id="num" placeholder="Enter phone number">
+        <button onclick="search()">SEARCH</button>
+    </div>
+
+    <!-- RESULT (UNCHANGED FORMAT) -->
+    <pre id="output">Result will appear here...</pre>
+
+    <!-- COPY BUTTON -->
+    <button class="copy-btn" onclick="copyResult()">📋 COPY FULL RESULT</button>
+
 </div>
-
-<input type="number" id="num" placeholder="Enter phone number">
-<button onclick="search()">SEARCH</button>
-
-<pre id="output">Result will appear here...</pre>
 
 <script>
 async function search(){
@@ -66,13 +126,12 @@ async function search(){
         const wrap = await res.json();
         const data = JSON.parse(wrap.contents);
 
-        // 🟢 EXACT API STYLE OUTPUT
         let text = "";
         text += "========================================\n";
         text += "📌 CREDITS\n";
         text += "========================================\n";
-        text += "● Developer: REHAN MALIK 😎\n";
-        text += "● Username : @rehan_z4x\n\n";
+        text += "● Developer : REHAN MALIK 😎\n";
+        text += "● Username  : @rehan_z4x\n\n";
 
         text += "========================================\n";
         text += "🔍 SEARCH RESULTS\n";
@@ -104,6 +163,12 @@ async function search(){
     }catch(e){
         out.textContent = "Error fetching data\n" + e;
     }
+}
+
+function copyResult(){
+    const text = document.getElementById("output").textContent;
+    navigator.clipboard.writeText(text);
+    alert("Full result copied ✅");
 }
 </script>
 
