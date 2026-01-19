@@ -21,59 +21,59 @@ body{
 }
 
 .container{
-    max-width:600px;
+    max-width:560px;
     margin:auto;
-    padding:30px 15px 80px;
+    padding:25px 15px 70px;
     text-align:center;
 }
 
 /* LOGO */
 .logo img{
-    width:95px;
-    height:95px;
+    width:90px;
+    height:90px;
     border-radius:50%;
     border:2px solid #00ffe1;
-    box-shadow:0 0 25px #00ffe1;
+    box-shadow:0 0 20px #00ffe1;
     object-fit:cover;
 }
 
 /* HEADER */
 .header{
-    margin-top:10px;
+    margin-top:8px;
     font-family:'Orbitron';
-    font-size:20px;
+    font-size:19px;
     color:#00ffe1;
 }
 .header span{color:#ff3b3b}
 
 .insta-label{
-    margin-top:6px;
-    font-size:12px;
-    color:#888;
-    letter-spacing:1px;
+    margin-top:4px;
+    font-size:11px;
+    color:#777;
 }
 .username{
     color:#aaa;
-    font-size:14px;
-    margin-top:2px;
+    font-size:13px;
 }
 
 /* SEARCH */
 .search{
-    margin-top:25px;
+    margin-top:20px;
     display:flex;
-    gap:10px;
+    gap:8px;
 }
 .search input{
     flex:1;
-    padding:14px;
+    height:44px;
+    padding:0 12px;
     background:#000;
     border:1px solid #00ff9c;
     color:#00ff9c;
-    font-size:16px;
+    font-size:15px;
 }
 .search button{
-    padding:14px 20px;
+    height:44px;
+    padding:0 18px;
     background:linear-gradient(90deg,#00ffe1,#ff3b3b);
     border:none;
     color:#000;
@@ -81,25 +81,25 @@ body{
     cursor:pointer;
 }
 
-/* RESULT BOX */
+/* RESULT */
 pre{
-    margin-top:20px;
+    margin-top:16px;
     background:#000;
     border:1px solid #00ff9c;
-    padding:15px;
+    padding:12px;
     color:#00ff9c;
     text-align:left;
     font-family:monospace;
-    font-size:14px;
-    min-height:140px;
+    font-size:13.5px;
+    min-height:110px;
     white-space:pre-wrap;
 }
 
 /* COPY */
 .copy{
-    margin-top:15px;
+    margin-top:14px;
     width:100%;
-    padding:14px;
+    height:44px;
     background:linear-gradient(90deg,#00ffe1,#ff3b3b);
     border:none;
     font-weight:bold;
@@ -136,6 +136,21 @@ pre{
 </div>
 
 <script>
+let loadingInterval;
+
+function startLoading(){
+    const out=document.getElementById("output");
+    let dots=0;
+    loadingInterval=setInterval(()=>{
+        dots=(dots+1)%4;
+        out.textContent="Please wait few seconds"+ ".".repeat(dots);
+    },500);
+}
+
+function stopLoading(){
+    clearInterval(loadingInterval);
+}
+
 async function search(){
     const n=document.getElementById("num").value.trim();
     const out=document.getElementById("output");
@@ -145,7 +160,7 @@ async function search(){
         return;
     }
 
-    out.textContent="Please wait few seconds...\n";
+    startLoading();
 
     try{
         const api=`https://rajput-api.vercel.app/search?num=${n}`;
@@ -153,6 +168,8 @@ async function search(){
         const res=await fetch(proxy);
         const wrap=await res.json();
         const data=JSON.parse(wrap.contents);
+
+        stopLoading();
 
         let txt="";
         txt+="========================================\n";
@@ -189,6 +206,7 @@ async function search(){
         out.textContent=txt;
 
     }catch(e){
+        stopLoading();
         out.textContent="Error fetching data. Please try again.";
     }
 }
