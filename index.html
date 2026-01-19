@@ -2,43 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<!-- 🔒 Disable Zoom -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Number Info | Rehan Malik</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap');
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
+    background:linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.85)),
+    url('background.png') center/cover no-repeat fixed;
+    font-family:'Rajdhani',sans-serif;
+    color:#00ff9c;
     min-height:100vh;
-    background:
-      linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.9)),
-      url('background.png') center/cover no-repeat fixed;
-    font-family: monospace;
-    color:#00ffcc;
 }
 
-/* MAIN WRAPPER */
-.wrapper{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    padding-top:60px;   /* 👈 pushes content down */
-}
-
-/* CONTAINER */
 .container{
-    width:100%;
-    max-width:900px;
-    padding:20px;
+    max-width:600px;
+    margin:auto;
+    padding:30px 15px 80px;
     text-align:center;
 }
 
@@ -48,180 +33,163 @@ body{
     height:95px;
     border-radius:50%;
     border:2px solid #00ffe1;
-    box-shadow:0 0 12px rgba(0,255,225,.6);
+    box-shadow:0 0 25px #00ffe1;
     object-fit:cover;
-    margin-bottom:12px;
 }
 
-/* HEADER NAME */
+/* HEADER */
 .header{
+    margin-top:10px;
     font-family:'Orbitron';
-    font-size:22px;
-    margin-bottom:22px;
+    font-size:20px;
+    color:#00ffe1;
 }
-.header .name{
-    background:linear-gradient(90deg,#00ffe1,#ff0033);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+.header span{color:#ff3b3b}
+
+.insta-label{
+    margin-top:6px;
+    font-size:12px;
+    color:#888;
+    letter-spacing:1px;
 }
-.header .user{
-    color:#fff;
+.username{
+    color:#aaa;
     font-size:14px;
+    margin-top:2px;
 }
 
-/* SEARCH BAR */
+/* SEARCH */
 .search{
+    margin-top:25px;
     display:flex;
-    gap:12px;
-    justify-content:center;
-    margin-bottom:20px;
+    gap:10px;
 }
 .search input{
-    width:260px;
-    padding:12px;
+    flex:1;
+    padding:14px;
+    background:#000;
+    border:1px solid #00ff9c;
+    color:#00ff9c;
     font-size:16px;
-    background:#050505;
-    color:#00ff66;
-    border:1px solid #00ff66;
-    outline:none;
 }
 .search button{
-    padding:12px 20px;
-    font-size:16px;
-    background:linear-gradient(90deg,#00ffe1,#ff0033);
+    padding:14px 20px;
+    background:linear-gradient(90deg,#00ffe1,#ff3b3b);
     border:none;
     color:#000;
     font-weight:bold;
     cursor:pointer;
 }
 
-/* RESULT */
+/* RESULT BOX */
 pre{
-    background:rgba(0,0,0,.88);
-    border:1px solid #00ff66;
-    padding:18px;
-    white-space:pre-wrap;
-    word-break:break-word;
-    font-size:14px;
+    margin-top:20px;
+    background:#000;
+    border:1px solid #00ff9c;
+    padding:15px;
+    color:#00ff9c;
     text-align:left;
-    box-shadow:0 0 15px rgba(0,255,100,.15);
+    font-family:monospace;
+    font-size:14px;
+    min-height:140px;
+    white-space:pre-wrap;
 }
 
 /* COPY */
-.copy-btn{
-    margin-top:14px;
+.copy{
+    margin-top:15px;
     width:100%;
     padding:14px;
-    background:linear-gradient(90deg,#00ffe1,#ff0033);
-    color:#000;
-    font-weight:bold;
+    background:linear-gradient(90deg,#00ffe1,#ff3b3b);
     border:none;
+    font-weight:bold;
     cursor:pointer;
-    font-size:15px;
-}
-
-/* Mobile spacing fix */
-@media(max-height:700px){
-    .wrapper{padding-top:30px;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
 <div class="container">
 
-    <!-- LOGO -->
     <div class="logo">
-        <img src="logo.png" alt="Logo">
+        <img src="logo.png">
     </div>
 
-    <!-- NAME -->
     <div class="header">
-        <div class="name">REHAN MALIK 😎</div>
-        <div class="user">@rehan_z4x</div>
+        REHAN <span>MALIK</span>
     </div>
 
-    <!-- SEARCH -->
+    <div class="insta-label">Instagram ID</div>
+    <div class="username">@rehan_z4x</div>
+
     <div class="search">
-        <input
-            id="num"
-            type="tel"
-            inputmode="numeric"
-            pattern="[0-9]*"
-            placeholder="Enter phone number"
-        >
+        <input type="tel" id="num" inputmode="numeric" pattern="[0-9]*"
+        placeholder="Enter phone number">
         <button onclick="search()">SEARCH</button>
     </div>
 
-    <!-- RESULT (UNCHANGED) -->
-    <pre id="output">Result will appear here...</pre>
+    <pre id="output">Enter number and get full information</pre>
 
-    <!-- COPY -->
-    <button class="copy-btn" onclick="copyResult()">📋 COPY FULL RESULT</button>
+    <button class="copy" onclick="copyResult()">📋 COPY FULL RESULT</button>
 
-</div>
 </div>
 
 <script>
-document.addEventListener('gesturestart', e => e.preventDefault());
-document.addEventListener('dblclick', e => e.preventDefault(), { passive:false });
-
 async function search(){
-    const n = document.getElementById("num").value.trim();
+    const n=document.getElementById("num").value.trim();
+    const out=document.getElementById("output");
+
     if(!n){
-        alert("Enter number");
+        alert("Enter phone number");
         return;
     }
 
-    const out = document.getElementById("output");
-    out.textContent = "Fetching data...\n";
+    out.textContent="Please wait few seconds...\n";
 
     try{
-        const api = `https://rajput-api.vercel.app/search?num=${n}`;
-        const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(api)}`;
+        const api=`https://rajput-api.vercel.app/search?num=${n}`;
+        const proxy=`https://api.allorigins.win/get?url=${encodeURIComponent(api)}`;
+        const res=await fetch(proxy);
+        const wrap=await res.json();
+        const data=JSON.parse(wrap.contents);
 
-        const res = await fetch(proxy);
-        const wrap = await res.json();
-        const data = JSON.parse(wrap.contents);
+        let txt="";
+        txt+="========================================\n";
+        txt+="📌 CREDITS\n";
+        txt+="========================================\n";
+        txt+="● Developer : REHAN MALIK 😎\n";
+        txt+="● Instagram : @rehan_z4x\n\n";
 
-        let text = "";
-        text += "========================================\n";
-        text += "📌 CREDITS\n";
-        text += "========================================\n";
-        text += "● Developer : REHAN MALIK 😎\n";
-        text += "● Username  : @rehan_z4x\n\n";
-
-        text += "========================================\n";
-        text += "🔍 SEARCH RESULTS\n";
-        text += "========================================\n";
-        text += `● Status      : ${data.status}\n`;
-        text += `● Count       : ${data.count}\n`;
-        text += `● Search Time : ${data.search_time || "N/A"}\n`;
-        text += "● Results     :\n\n";
+        txt+="========================================\n";
+        txt+="🔍 SEARCH RESULTS\n";
+        txt+="========================================\n";
+        txt+=`● Status      : ${data.status}\n`;
+        txt+=`● Count       : ${data.count}\n`;
+        txt+=`● Search Time : ${data.search_time || "N/A"}\n`;
+        txt+="● Results     :\n\n";
 
         if(data.results && data.results.length){
             data.results.forEach((u,i)=>{
-                text += `#${i+1}\n`;
-                text += `Mobile  : ${u.mobile}\n`;
-                text += `Name    : ${u.name}\n`;
-                text += `Father  : ${u.fname}\n`;
-                text += `Address : ${u.address}\n`;
-                text += `Alt No  : ${u.alt}\n`;
-                text += `Circle  : ${u.circle}\n`;
-                text += `ID      : ${u.id}\n`;
-                text += `Email   : ${u.email}\n`;
-                text += "----------------------------------------\n";
+                txt+=`#${i+1}\n`;
+                txt+=`Mobile  : ${u.mobile}\n`;
+                txt+=`Name    : ${u.name}\n`;
+                txt+=`Father  : ${u.fname}\n`;
+                txt+=`Address : ${u.address}\n`;
+                txt+=`Alt No  : ${u.alt}\n`;
+                txt+=`Circle  : ${u.circle}\n`;
+                txt+=`ID      : ${u.id}\n`;
+                txt+=`Email   : ${u.email}\n`;
+                txt+="----------------------------------------\n";
             });
         }else{
-            text += "No data found\n";
+            txt+="No record found\n";
         }
 
-        out.textContent = text;
+        out.textContent=txt;
 
     }catch(e){
-        out.textContent = "Error fetching data\n" + e;
+        out.textContent="Error fetching data. Please try again.";
     }
 }
 
