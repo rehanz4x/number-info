@@ -10,19 +10,16 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-    background: #050505; /* Fallback color */
-    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('background.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background:#050505;
+    background-image:linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.85)),url('background.png');
+    background-size:cover;
+    background-position:center;
     min-height:100vh;
     color:#fff;
     font-family:'Rajdhani',sans-serif;
 }
 
 .container{
-    position:relative;
-    z-index:1;
     max-width:520px;
     margin:auto;
     padding:50px 20px;
@@ -37,7 +34,7 @@ body{
     border:2px solid #00ffe1;
     box-shadow:0 0 20px rgba(0,255,225,.4);
     margin-bottom:15px;
-    object-fit: cover;
+    object-fit:cover;
 }
 
 /* TITLE */
@@ -45,10 +42,15 @@ h1{
     font-family:'Orbitron';
     color:#ff0033;
     letter-spacing:3px;
-    font-size: 28px;
+    font-size:28px;
 }
 h1 span{color:#00ffe1;}
-.subtitle{color:#aaa;font-size:13px;margin-top:5px; letter-spacing: 1px;}
+.subtitle{
+    color:#aaa;
+    font-size:13px;
+    margin-top:5px;
+    letter-spacing:1px;
+}
 
 /* SEARCH */
 .search-box{
@@ -62,47 +64,60 @@ h1 span{color:#00ffe1;}
     background:#111;
     border:1px solid #333;
     color:#fff;
-    outline: none;
-    font-family: 'Rajdhani';
-    font-size: 16px;
+    font-size:16px;
 }
-.search-box input:focus{border-color: #ff0033;}
-
 .search-box button{
     padding:14px 22px;
     background:#ff0033;
     border:none;
     color:#fff;
     font-weight:600;
-    cursor: pointer;
-    transition: 0.3s;
+    cursor:pointer;
 }
-.search-box button:hover{background: #cc0029;}
 
 /* RESULT */
 .result{
     display:none;
-    background:rgba(11, 11, 11, 0.95);
+    background:rgba(11,11,11,.95);
     border:1px solid #222;
     padding:25px;
     text-align:left;
-    animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 /* DEV */
-.dev{text-align:center;margin-bottom:15px; border-bottom: 1px solid #222; padding-bottom: 15px;}
-.dev small{color:#888;letter-spacing:2px;font-size:12px; display: block;}
-.dev h2{color:#00ffe1;font-family:'Orbitron'; font-size: 20px; margin: 5px 0;}
-.dev p{color:#ff0033;font-size:13px; font-weight: bold;}
+.dev{
+    text-align:center;
+    border-bottom:1px solid #222;
+    margin-bottom:15px;
+    padding-bottom:15px;
+}
+.dev small{
+    color:#888;
+    letter-spacing:2px;
+    font-size:12px;
+    display:block;
+}
+.dev h2{
+    color:#00ffe1;
+    font-family:'Orbitron';
+}
+.dev p{
+    color:#ff0033;
+    font-size:13px;
+    font-weight:bold;
+}
 
 /* DATA */
-.data p{margin:12px 0;color:#ddd; font-size: 16px; border-bottom: 1px border-style: dotted; border-color: #222; padding-bottom: 5px;}
-.data span{color:#00ffe1;font-weight:600; float: right;}
+.data p{
+    margin:12px 0;
+    color:#ddd;
+    font-size:16px;
+}
+.data span{
+    color:#00ffe1;
+    font-weight:600;
+    float:right;
+}
 
 /* COPY */
 .copy{
@@ -112,9 +127,8 @@ h1 span{color:#00ffe1;}
     background:#00ffe1;
     border:none;
     font-weight:bold;
-    cursor: pointer;
-    color: #000;
-    text-transform: uppercase;
+    cursor:pointer;
+    color:#000;
 }
 </style>
 </head>
@@ -122,8 +136,9 @@ h1 span{color:#00ffe1;}
 <body>
 
 <div class="container">
+
     <div class="logo">
-        <img src="logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/90'">
+        <img src="logo.png" alt="Logo">
     </div>
 
     <h1>NUMBER <span>INFO</span></h1>
@@ -155,70 +170,66 @@ h1 span{color:#00ffe1;}
 
 <script>
 async function search(){
-    const numInput = document.getElementById('numberInput').value.trim();
-    const resultBox = document.getElementById('resultBox');
-    
-    if(!numInput || numInput.length < 10){
-        alert("Please enter a valid 10-digit number");
+    const num = document.getElementById("numberInput").value.trim();
+    if(!num || num.length < 10){
+        alert("Enter valid 10 digit number");
         return;
     }
 
-    // UI Reset and Show
-    resultBox.style.display = "block";
-    document.getElementById('res_num').innerText = numInput;
-    document.getElementById('res_name').innerText = "Searching...";
-    document.getElementById('res_loc').innerText = "Searching...";
-    document.getElementById('res_op').innerText = "Searching...";
-    document.getElementById('res_status').innerText = "Loading ⏳";
+    document.getElementById("resultBox").style.display="block";
+    document.getElementById("res_num").innerText=num;
+    document.getElementById("res_name").innerText="Searching...";
+    document.getElementById("res_loc").innerText="Searching...";
+    document.getElementById("res_op").innerText="Searching...";
+    document.getElementById("res_status").innerText="Loading ⏳";
 
-    try {
-        // Direct API URL
-        const apiURL = `https://rajput-api.vercel.app/search?num=${numInput}`;
-        
-        // Proxy ka use taaki CORS error na aaye
-        const proxyURL = `https://api.allorigins.win/get?url=${encodeURIComponent(apiURL)}`;
+    try{
+        const apiURL = `https://rajput-api.vercel.app/search?num=${num}`;
+        const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(apiURL)}`;
 
-        const response = await fetch(proxyURL);
-        const outerData = await response.json();
-        
-        // allorigins data string ya object dono ho sakta hai
-        const data = typeof outerData.contents === 'string' ? JSON.parse(outerData.contents) : outerData.contents;
+        const res = await fetch(proxy);
+        const wrap = await res.json();
+        const data = JSON.parse(wrap.contents);
 
-        console.log("Response Data:", data);
+        if(data.status === "success" && data.results && data.results.length > 0){
+            const u = data.results[0];   // FIRST RESULT
 
-        // API ke format ke hisaab se check (checking different possible keys)
-        if(data && (data.name || data.status === "success" || data.data)) {
-            const info = data.data || data; 
-            
-            document.getElementById('res_name').innerText = info.name || "Unknown User";
-            document.getElementById('res_loc').innerText = info.location || info.address || info.circle || "India";
-            document.getElementById('res_op').innerText = info.operator || info.carrier || "Jio / Airtel";
-            document.getElementById('res_status').innerText = "Found ✅";
-        } else {
-            throw new Error("No record found");
+            document.getElementById("res_name").innerText = u.name || "Unknown";
+            document.getElementById("res_loc").innerText  = u.address || "Unknown";
+            document.getElementById("res_op").innerText   = u.circle || "Unknown";
+            document.getElementById("res_status").innerText = "Success ✅";
+        }else{
+            throw "No data";
         }
 
-    } catch(error) {
-        console.error("API Error:", error);
-        document.getElementById('res_name').innerText = "No Record";
-        document.getElementById('res_loc').innerText = "Unknown";
-        document.getElementById('res_op').innerText = "Unknown";
-        document.getElementById('res_status').innerText = "Not Found ❌";
+    }catch(e){
+        document.getElementById("res_name").innerText="No Record";
+        document.getElementById("res_loc").innerText="-";
+        document.getElementById("res_op").innerText="-";
+        document.getElementById("res_status").innerText="Not Found ❌";
     }
 }
 
 function copyAll(){
-    const n = document.getElementById('res_num').innerText;
-    const nm = document.getElementById('res_name').innerText;
-    const l = document.getElementById('res_loc').innerText;
-    const o = document.getElementById('res_op').innerText;
-    const s = document.getElementById('res_status').innerText;
+const text =
+`========================================
+📌 CREDITS
+========================================
+● Developer: REHAN MALIK 😎
+● Username: @rehan_z4x
 
-    const text = `DEVELOPER: REHAN MALIK 😎\nNUMBER: ${n}\nNAME: ${nm}\nLOCATION: ${l}\nOPERATOR: ${o}\nSTATUS: ${s}`;
-    
-    navigator.clipboard.writeText(text).then(() => {
-        alert("Result Copied to Clipboard! ✅");
-    });
+========================================
+🔍 SEARCH RESULTS
+========================================
+📱 Number: ${res_num.innerText}
+👤 Name: ${res_name.innerText}
+📍 Address: ${res_loc.innerText}
+📶 Operator: ${res_op.innerText}
+🛡️ Status: ${res_status.innerText}
+`;
+
+navigator.clipboard.writeText(text);
+alert("Copied Successfully ✅");
 }
 </script>
 
