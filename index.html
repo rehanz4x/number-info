@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- 🔒 ZOOM DISABLE -->
+<!-- 🔒 Disable Zoom -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Number Info | Rehan Malik</title>
@@ -20,116 +20,137 @@
 body{
     min-height:100vh;
     background:
-      linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.85)),
+      linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.9)),
       url('background.png') center/cover no-repeat fixed;
-    color:#00ff66;
     font-family: monospace;
-    overscroll-behavior: none;
-    touch-action: manipulation;
+    color:#00ffcc;
 }
 
-/* MAIN */
+/* MAIN WRAPPER */
+.wrapper{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding-top:60px;   /* 👈 pushes content down */
+}
+
+/* CONTAINER */
 .container{
+    width:100%;
     max-width:900px;
-    margin:auto;
     padding:20px;
     text-align:center;
 }
 
-/* LOGO (NO BLUR) */
+/* LOGO */
 .logo img{
-    width:90px;
-    height:90px;
+    width:95px;
+    height:95px;
     border-radius:50%;
     border:2px solid #00ffe1;
-    box-shadow:0 0 20px rgba(0,255,225,.6);
+    box-shadow:0 0 12px rgba(0,255,225,.6);
     object-fit:cover;
-    margin-bottom:10px;
+    margin-bottom:12px;
 }
 
-/* HEADER */
+/* HEADER NAME */
 .header{
     font-family:'Orbitron';
-    color:#00ffe1;
-    margin-bottom:15px;
+    font-size:22px;
+    margin-bottom:22px;
 }
-.header span{
+.header .name{
+    background:linear-gradient(90deg,#00ffe1,#ff0033);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.header .user{
     color:#fff;
     font-size:14px;
 }
 
-/* SEARCH */
+/* SEARCH BAR */
 .search{
     display:flex;
-    gap:10px;
+    gap:12px;
     justify-content:center;
-    margin-bottom:15px;
+    margin-bottom:20px;
 }
 .search input{
-    width:240px;
-    padding:10px;
+    width:260px;
+    padding:12px;
     font-size:16px;
-    background:#000;
-    color:#0f0;
-    border:1px solid #0f0;
+    background:#050505;
+    color:#00ff66;
+    border:1px solid #00ff66;
     outline:none;
 }
 .search button{
-    padding:10px 18px;
+    padding:12px 20px;
     font-size:16px;
-    background:#00ffe1;
+    background:linear-gradient(90deg,#00ffe1,#ff0033);
     border:none;
-    cursor:pointer;
+    color:#000;
     font-weight:bold;
+    cursor:pointer;
 }
 
 /* RESULT */
 pre{
-    background:rgba(0,0,0,.85);
-    border:1px solid #0f0;
-    padding:15px;
+    background:rgba(0,0,0,.88);
+    border:1px solid #00ff66;
+    padding:18px;
     white-space:pre-wrap;
     word-break:break-word;
     font-size:14px;
     text-align:left;
+    box-shadow:0 0 15px rgba(0,255,100,.15);
 }
 
 /* COPY */
 .copy-btn{
-    margin-top:10px;
+    margin-top:14px;
     width:100%;
-    padding:12px;
-    background:#00ffe1;
+    padding:14px;
+    background:linear-gradient(90deg,#00ffe1,#ff0033);
     color:#000;
     font-weight:bold;
     border:none;
     cursor:pointer;
     font-size:15px;
 }
+
+/* Mobile spacing fix */
+@media(max-height:700px){
+    .wrapper{padding-top:30px;}
+}
 </style>
 </head>
 
 <body>
 
+<div class="wrapper">
 <div class="container">
 
-    <!-- ✅ LOGO -->
+    <!-- LOGO -->
     <div class="logo">
         <img src="logo.png" alt="Logo">
     </div>
 
+    <!-- NAME -->
     <div class="header">
-        REHAN MALIK 😎 <span>@rehan_z4x</span>
+        <div class="name">REHAN MALIK 😎</div>
+        <div class="user">@rehan_z4x</div>
     </div>
 
-    <!-- ✅ NUMBER ONLY KEYBOARD -->
+    <!-- SEARCH -->
     <div class="search">
         <input
             id="num"
-            placeholder="Enter phone number"
             type="tel"
             inputmode="numeric"
             pattern="[0-9]*"
+            placeholder="Enter phone number"
         >
         <button onclick="search()">SEARCH</button>
     </div>
@@ -141,9 +162,9 @@ pre{
     <button class="copy-btn" onclick="copyResult()">📋 COPY FULL RESULT</button>
 
 </div>
+</div>
 
 <script>
-/* 🔒 EXTRA ZOOM BLOCK (DOUBLE TAP) */
 document.addEventListener('gesturestart', e => e.preventDefault());
 document.addEventListener('dblclick', e => e.preventDefault(), { passive:false });
 
