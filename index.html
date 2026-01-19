@@ -3,233 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Number Info | Rehan Malik</title>
+<title>Number Info</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap');
-*{margin:0;padding:0;box-sizing:border-box;}
-
 body{
+    background:#000;
+    color:#0f0;
+    font-family: monospace;
+    padding:15px;
+}
+input,button{
+    padding:10px;
+    font-family: monospace;
+    font-size:16px;
+}
+button{
+    cursor:pointer;
+}
+pre{
+    white-space: pre-wrap;
+    word-wrap: break-word;
     background:#050505;
-    background-image:linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.85)),url('background.png');
-    background-size:cover;
-    background-position:center;
-    min-height:100vh;
-    color:#fff;
-    font-family:'Rajdhani',sans-serif;
-}
-
-.container{
-    max-width:520px;
-    margin:auto;
-    padding:50px 20px;
-    text-align:center;
-}
-
-/* LOGO */
-.logo img{
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    border:2px solid #00ffe1;
-    box-shadow:0 0 20px rgba(0,255,225,.4);
-    margin-bottom:15px;
-    object-fit:cover;
-}
-
-/* TITLE */
-h1{
-    font-family:'Orbitron';
-    color:#ff0033;
-    letter-spacing:3px;
-    font-size:28px;
-}
-h1 span{color:#00ffe1;}
-.subtitle{
-    color:#aaa;
-    font-size:13px;
-    margin-top:5px;
-    letter-spacing:1px;
-}
-
-/* SEARCH */
-.search-box{
-    display:flex;
-    gap:10px;
-    margin:35px 0;
-}
-.search-box input{
-    flex:1;
-    padding:14px;
-    background:#111;
-    border:1px solid #333;
-    color:#fff;
-    font-size:16px;
-}
-.search-box button{
-    padding:14px 22px;
-    background:#ff0033;
-    border:none;
-    color:#fff;
-    font-weight:600;
-    cursor:pointer;
-}
-
-/* RESULT */
-.result{
-    display:none;
-    background:rgba(11,11,11,.95);
+    padding:15px;
+    margin-top:15px;
     border:1px solid #222;
-    padding:25px;
-    text-align:left;
 }
-
-/* DEV */
-.dev{
-    text-align:center;
-    border-bottom:1px solid #222;
-    margin-bottom:15px;
-    padding-bottom:15px;
-}
-.dev small{
-    color:#888;
-    letter-spacing:2px;
-    font-size:12px;
-    display:block;
-}
-.dev h2{
-    color:#00ffe1;
-    font-family:'Orbitron';
-}
-.dev p{
-    color:#ff0033;
-    font-size:13px;
-    font-weight:bold;
-}
-
-/* DATA */
-.data p{
-    margin:12px 0;
-    color:#ddd;
-    font-size:16px;
-}
-.data span{
-    color:#00ffe1;
-    font-weight:600;
-    float:right;
-}
-
-/* COPY */
-.copy{
-    margin-top:20px;
-    width:100%;
-    padding:14px;
-    background:#00ffe1;
-    border:none;
-    font-weight:bold;
-    cursor:pointer;
-    color:#000;
+.credit{
+    color:#0ff;
+    margin-bottom:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-    <div class="logo">
-        <img src="logo.png" alt="Logo">
-    </div>
-
-    <h1>NUMBER <span>INFO</span></h1>
-    <div class="subtitle">PROFESSIONAL PHONE LOOKUP 🔍</div>
-
-    <div class="search-box">
-        <input type="number" id="numberInput" placeholder="Enter phone number">
-        <button onclick="search()">SEARCH</button>
-    </div>
-
-    <div class="result" id="resultBox">
-        <div class="dev">
-            <small>DEVELOPER</small>
-            <h2>REHAN MALIK 😎</h2>
-            <p>@rehan_z4x</p>
-        </div>
-
-        <div class="data">
-            <p>📱 NUMBER → <span id="res_num">---</span></p>
-            <p>👤 NAME → <span id="res_name">---</span></p>
-            <p>📍 LOCATION → <span id="res_loc">---</span></p>
-            <p>📶 OPERATOR → <span id="res_op">---</span></p>
-            <p>🛡️ STATUS → <span id="res_status">---</span></p>
-        </div>
-
-        <button class="copy" onclick="copyAll()">📋 COPY FULL RESULT</button>
-    </div>
+<div class="credit">
+REHAN MALIK 😎  
+@rehan_z4x  
 </div>
+
+<input type="number" id="num" placeholder="Enter phone number">
+<button onclick="search()">SEARCH</button>
+
+<pre id="output">Result will appear here...</pre>
 
 <script>
 async function search(){
-    const num = document.getElementById("numberInput").value.trim();
-    if(!num || num.length < 10){
-        alert("Enter valid 10 digit number");
+    const n = document.getElementById("num").value.trim();
+    if(!n){
+        alert("Enter number");
         return;
     }
 
-    document.getElementById("resultBox").style.display="block";
-    document.getElementById("res_num").innerText=num;
-    document.getElementById("res_name").innerText="Searching...";
-    document.getElementById("res_loc").innerText="Searching...";
-    document.getElementById("res_op").innerText="Searching...";
-    document.getElementById("res_status").innerText="Loading ⏳";
+    const out = document.getElementById("output");
+    out.textContent = "Fetching data...\n";
 
     try{
-        const apiURL = `https://rajput-api.vercel.app/search?num=${num}`;
-        const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(apiURL)}`;
+        const api = `https://rajput-api.vercel.app/search?num=${n}`;
+        const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(api)}`;
 
         const res = await fetch(proxy);
         const wrap = await res.json();
         const data = JSON.parse(wrap.contents);
 
-        if(data.status === "success" && data.results && data.results.length > 0){
-            const u = data.results[0];   // FIRST RESULT
+        // 🟢 EXACT API STYLE OUTPUT
+        let text = "";
+        text += "========================================\n";
+        text += "📌 CREDITS\n";
+        text += "========================================\n";
+        text += "● Developer: REHAN MALIK 😎\n";
+        text += "● Username : @rehan_z4x\n\n";
 
-            document.getElementById("res_name").innerText = u.name || "Unknown";
-            document.getElementById("res_loc").innerText  = u.address || "Unknown";
-            document.getElementById("res_op").innerText   = u.circle || "Unknown";
-            document.getElementById("res_status").innerText = "Success ✅";
+        text += "========================================\n";
+        text += "🔍 SEARCH RESULTS\n";
+        text += "========================================\n";
+        text += `● Status      : ${data.status}\n`;
+        text += `● Count       : ${data.count}\n`;
+        text += `● Search Time : ${data.search_time || "N/A"}\n`;
+        text += "● Results     :\n\n";
+
+        if(data.results && data.results.length){
+            data.results.forEach((u,i)=>{
+                text += `#${i+1}\n`;
+                text += `Mobile  : ${u.mobile}\n`;
+                text += `Name    : ${u.name}\n`;
+                text += `Father  : ${u.fname}\n`;
+                text += `Address : ${u.address}\n`;
+                text += `Alt No  : ${u.alt}\n`;
+                text += `Circle  : ${u.circle}\n`;
+                text += `ID      : ${u.id}\n`;
+                text += `Email   : ${u.email}\n`;
+                text += "----------------------------------------\n";
+            });
         }else{
-            throw "No data";
+            text += "No data found\n";
         }
 
+        out.textContent = text;
+
     }catch(e){
-        document.getElementById("res_name").innerText="No Record";
-        document.getElementById("res_loc").innerText="-";
-        document.getElementById("res_op").innerText="-";
-        document.getElementById("res_status").innerText="Not Found ❌";
+        out.textContent = "Error fetching data\n" + e;
     }
-}
-
-function copyAll(){
-const text =
-`========================================
-📌 CREDITS
-========================================
-● Developer: REHAN MALIK 😎
-● Username: @rehan_z4x
-
-========================================
-🔍 SEARCH RESULTS
-========================================
-📱 Number: ${res_num.innerText}
-👤 Name: ${res_name.innerText}
-📍 Address: ${res_loc.innerText}
-📶 Operator: ${res_op.innerText}
-🛡️ Status: ${res_status.innerText}
-`;
-
-navigator.clipboard.writeText(text);
-alert("Copied Successfully ✅");
 }
 </script>
 
