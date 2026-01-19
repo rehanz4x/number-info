@@ -8,7 +8,7 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 <title>Number Info | Rehan Malik</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&family=Audiowide&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;600&display=swap');
 
 *{margin:0;padding:0;box-sizing:border-box}
 
@@ -33,7 +33,7 @@ body{
     height:90px;
     border-radius:50%;
     border:2px solid #00ffe1;
-    box-shadow:0 0 25px #00ffe1;
+    box-shadow:0 0 20px #00ffe1;
     object-fit:cover;
 }
 
@@ -41,11 +41,11 @@ body{
 .header{
     margin-top:8px;
     font-family:'Orbitron';
-    font-size:20px;
-    background:linear-gradient(90deg,#00ffe1,#ff3b3b);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+    font-size:19px;
+    color:#00ffe1;
 }
+.header span{color:#ff3b3b}
+
 .insta-label{font-size:11px;color:#777;margin-top:4px}
 .username{font-size:13px;color:#aaa}
 
@@ -73,37 +73,17 @@ body{
     cursor:pointer;
 }
 
-/* STYLISH MESSAGE */
-.message-box{
-    margin-top:14px;
-    background:#000;
-    border:1px solid #00ff9c;
-    padding:20px 14px;
-    min-height:125px;
-    box-shadow:0 0 18px rgba(0,255,225,.25);
-}
-
-.message{
-    font-family:'Audiowide',cursive;
-    font-size:14.5px;
-    line-height:1.6;
-    background:linear-gradient(90deg,#00ffe1,#ff3b3b);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    text-shadow:0 0 10px rgba(0,255,225,.5);
-}
-
 /* RESULT */
 pre{
-    display:none;
     margin-top:14px;
     background:#000;
     border:1px solid #00ff9c;
-    padding:14px;
+    padding:12px;
     color:#00ff9c;
     text-align:left;
     font-family:monospace;
     font-size:13.5px;
+    min-height:120px;
     white-space:pre-wrap;
 }
 
@@ -128,7 +108,10 @@ pre{
         <img src="logo.png">
     </div>
 
-    <div class="header">REHAN MALIK</div>
+    <div class="header">
+        REHAN <span>MALIK</span>
+    </div>
+
     <div class="insta-label">Instagram ID</div>
     <div class="username">@rehan_z4x</div>
 
@@ -138,18 +121,11 @@ pre{
         <button onclick="search()">SEARCH</button>
     </div>
 
-    <!-- STYLISH MESSAGE -->
-    <div class="message-box" id="msgBox">
-        <div class="message" id="msg">
-            🔐 Secure Phone Intelligence System<br>
-            Get complete phone number details<br>
-            Name • Address • Network • More<br>
-            Fast • Reliable • Verified 📡
-        </div>
-    </div>
-
-    <!-- RESULT -->
-    <pre id="output"></pre>
+    <pre id="output">
+🔐 This website provides complete phone number information
+including name, address, operator & more.
+Fast • Secure • Reliable 📡
+    </pre>
 
     <button class="copy" onclick="copyResult()">📋 COPY FULL RESULT</button>
 
@@ -159,15 +135,15 @@ pre{
 let loadingTimer;
 
 function showLoading(){
-    const msg=document.getElementById("msg");
+    const out=document.getElementById("output");
     let i=0;
-    const arr=[
-        "Initializing secure connection",
-        "Fetching encrypted data",
-        "Processing phone information"
+    const msgs=[
+        "Please wait few seconds",
+        "Fetching information",
+        "Connecting to database"
     ];
     loadingTimer=setInterval(()=>{
-        msg.innerHTML=arr[i%arr.length]+"...";
+        out.textContent=msgs[i%msgs.length]+"...";
         i++;
     },700);
 }
@@ -178,11 +154,11 @@ function stopLoading(){
 
 async function search(){
     const n=document.getElementById("num").value.trim();
+    const out=document.getElementById("output");
+
     if(!n){alert("Enter phone number");return;}
 
-    document.getElementById("output").style.display="none";
-    document.getElementById("msgBox").style.display="block";
-    showLoading();
+    showLoading(); // instant feel
 
     try{
         const api=`https://rajput-api.vercel.app/search?num=${n}`;
@@ -192,31 +168,40 @@ async function search(){
         const data=JSON.parse(wrap.contents);
 
         stopLoading();
-        document.getElementById("msgBox").style.display="none";
 
         let txt="";
+        txt+="========================================\n";
         txt+="📌 CREDITS\n";
-        txt+="Developer : REHAN MALIK 😎\n";
-        txt+="Instagram : @rehan_z4x\n\n";
-        txt+="🔍 SEARCH RESULTS\n\n";
+        txt+="========================================\n";
+        txt+="● Developer : REHAN MALIK 😎\n";
+        txt+="● Instagram : @rehan_z4x\n\n";
+
+        txt+="========================================\n";
+        txt+="🔍 SEARCH RESULTS\n";
+        txt+="========================================\n";
+        txt+=`● Status      : ${data.status}\n`;
+        txt+=`● Count       : ${data.count}\n`;
+        txt+=`● Search Time : ${data.search_time || "N/A"}\n`;
+        txt+="● Results     :\n\n";
 
         data.results?.forEach((u,i)=>{
             txt+=`#${i+1}\n`;
             txt+=`Mobile  : ${u.mobile}\n`;
             txt+=`Name    : ${u.name}\n`;
-            txt+=`Father : ${u.fname}\n`;
-            txt+=`Address: ${u.address}\n`;
-            txt+=`Circle : ${u.circle}\n`;
-            txt+="----------------------\n";
+            txt+=`Father  : ${u.fname}\n`;
+            txt+=`Address : ${u.address}\n`;
+            txt+=`Alt No  : ${u.alt}\n`;
+            txt+=`Circle  : ${u.circle}\n`;
+            txt+=`ID      : ${u.id}\n`;
+            txt+=`Email   : ${u.email}\n`;
+            txt+="----------------------------------------\n";
         });
 
-        const out=document.getElementById("output");
         out.textContent=txt;
-        out.style.display="block";
 
     }catch(e){
         stopLoading();
-        document.getElementById("msg").innerHTML="⚠️ Unable to fetch data";
+        out.textContent="Error fetching data. Try again.";
     }
 }
 
